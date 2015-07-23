@@ -8,7 +8,9 @@ package org.hibernate.search.genericjpa.test.entities;
 
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 import org.hibernate.search.genericjpa.annotations.IdColumn;
 import org.hibernate.search.genericjpa.annotations.IdInfo;
 import org.hibernate.search.genericjpa.annotations.InIndex;
@@ -31,8 +33,8 @@ import javax.persistence.Table;
 public class Book {
 
 	@Id
-	@DocumentId
 	@Column(name = "name")
+	@Field(store = Store.YES, index = Index.YES, name = "nameStored")
 	private String name;
 
 	@Field
