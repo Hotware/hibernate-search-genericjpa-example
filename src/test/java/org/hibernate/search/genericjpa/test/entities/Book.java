@@ -9,7 +9,11 @@ package org.hibernate.search.genericjpa.test.entities;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.genericjpa.annotations.IdColumn;
+import org.hibernate.search.genericjpa.annotations.IdInfo;
 import org.hibernate.search.genericjpa.annotations.InIndex;
+import org.hibernate.search.genericjpa.annotations.UpdateInfo;
+import org.hibernate.search.genericjpa.db.events.ColumnType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +27,7 @@ import javax.persistence.Table;
 @Table(name = "Book")
 @InIndex
 @Indexed
+@UpdateInfo(tableName = "Book", idInfos = @IdInfo(columns = @IdColumn(column = "name", columnType = ColumnType.STRING)))
 public class Book {
 
 	@Id
