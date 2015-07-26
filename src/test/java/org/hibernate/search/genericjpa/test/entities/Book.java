@@ -6,21 +6,28 @@
  */
 package org.hibernate.search.genericjpa.test.entities;
 
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import java.util.Set;
+
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
 import org.hibernate.search.genericjpa.annotations.IdColumn;
 import org.hibernate.search.genericjpa.annotations.IdInfo;
 import org.hibernate.search.genericjpa.annotations.InIndex;
 import org.hibernate.search.genericjpa.annotations.UpdateInfo;
 import org.hibernate.search.genericjpa.db.events.ColumnType;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * Created by Martin on 24.06.2015.
@@ -29,31 +36,73 @@ import javax.persistence.Table;
 @Table(name = "Book")
 @InIndex
 @Indexed
-@UpdateInfo(tableName = "Book", idInfos = @IdInfo(columns = @IdColumn(column = "name", columnType = ColumnType.STRING)))
+@UpdateInfo(tableName = "Book", idInfos = @IdInfo(columns = @IdColumn(column = "isbn", columnType = ColumnType.STRING)))
 public class Book {
 
 	@Id
-	@Column(name = "name")
+	@DocumentId
+	@Column(name = "isbn", columnDefinition = "VARCHAR(100) NOT NULL")
+	private String isbn;
+
+	@Column(name = "title", columnDefinition = "VARCHAR(100) NOT NULL")
 	@Field(store = Store.YES, index = Index.YES, name = "nameStored")
-	private String name;
+	private String title;
 
+	@Column(name = "genre", columnDefinition = "VARCHAR(100) NOT NULL")
 	@Field
-	@Column(name = "author")
-	private String author;
+	private String genre;
 
-	public String getName() {
-		return name;
+	@Lob
+	@Column(name = "summary", columnDefinition = "BLOB NOT NULL")
+	@Field
+	private String summary;
+
+	@ManyToMany(mappedBy = "books", cascade = {
+			CascadeType.MERGE,
+			CascadeType.DETACH,
+			CascadeType.PERSIST,
+			CascadeType.REFRESH
+	})
+	@IndexedEmbedded(includeEmbeddedObjectId = true)
+	private Set<Author> authors;
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getTitle() {
+		return title;
 	}
 
-	public String getAuthor() {
-		return author;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public String getIsbn() {
+		return isbn;
+	}
+
+	public Set<Author> getAuthors() {
+		return authors;
+	}
+
+	public void setAuthors(Set<Author> authors) {
+		this.authors = authors;
 	}
 }

@@ -11,12 +11,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Properties;
 
 import org.apache.lucene.search.MatchAllDocsQuery;
 
 import org.hibernate.search.genericjpa.JPASearchFactoryController;
 import org.hibernate.search.genericjpa.Setup;
+import org.hibernate.search.genericjpa.test.entities.Author;
 import org.hibernate.search.genericjpa.test.entities.Book;
 import org.hibernate.search.genericjpa.util.Sleep;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -38,7 +41,8 @@ public class IntegrationTest {
 
 	@Test
 	public void testBasicIntegration() throws InterruptedException {
-		Sleep.sleep(100_000, () -> BOOK_COUNT ==
+		Sleep.sleep(
+				100_000, () -> BOOK_COUNT ==
 						this.searchController.getFullTextEntityManager( this.em )
 								.createFullTextQuery( new MatchAllDocsQuery(), Book.class )
 								.getResultSize()
@@ -63,9 +67,17 @@ public class IntegrationTest {
 		FullTextEntityManager fem = this.searchController.getFullTextEntityManager( this.em );
 		this.em.getTransaction().begin();
 		for ( int i = 0; i < BOOK_COUNT; ++i ) {
+			Author author = new Author();
+			author.setFirstName( "Author" + i );
+			author.setLastName( "LastName" + i );
+			author.setCountry( "Country" + i );
 			Book book = new Book();
-			book.setName( "Name" + i );
-			book.setAuthor( "Author" + i );
+			book.setIsbn( "ISBN" + i );
+			book.setGenre( "Genre" + i );
+			book.setSummary( "some kind of summary" + i );
+			book.setTitle( "Title" + i );
+			book.setAuthors( new HashSet<>( Arrays.asList( author ) ) );
+			author.setBooks( new HashSet<>( Arrays.asList( book ) ) );
 			this.em.persist( book );
 		}
 		this.em.getTransaction().commit();
