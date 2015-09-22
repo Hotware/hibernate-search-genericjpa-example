@@ -19,8 +19,8 @@ import org.apache.lucene.search.MatchAllDocsQuery;
 
 import org.hibernate.search.genericjpa.JPASearchFactoryController;
 import org.hibernate.search.genericjpa.Setup;
-import org.hibernate.search.genericjpa.test.entities.Author;
-import org.hibernate.search.genericjpa.test.entities.Book;
+import org.hibernate.search.genericjpa.sample.entities.Author;
+import org.hibernate.search.genericjpa.sample.entities.Book;
 import org.hibernate.search.genericjpa.util.Sleep;
 import org.hibernate.search.jpa.FullTextEntityManager;
 

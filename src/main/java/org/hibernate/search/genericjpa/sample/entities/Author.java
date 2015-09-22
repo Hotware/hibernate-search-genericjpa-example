@@ -1,4 +1,4 @@
-package org.hibernate.search.genericjpa.test.entities;
+package org.hibernate.search.genericjpa.sample.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -94,5 +94,15 @@ public class Author {
 
 	public void setBooks(Set<Book> books) {
 		this.books = books;
+	}
+
+	@Override
+	public String toString() {
+		return "Author{" +
+				"authorId=" + authorId +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", country='" + country + '\'' +
+				'}';
 	}
 }

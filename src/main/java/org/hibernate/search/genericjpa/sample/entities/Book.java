@@ -4,9 +4,8 @@
  * License: GNU Lesser General Public License (LGPL), version 2.1 or later
  * See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
  */
-package org.hibernate.search.genericjpa.test.entities;
+package org.hibernate.search.genericjpa.sample.entities;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +26,7 @@ import org.hibernate.search.genericjpa.annotations.IdColumn;
 import org.hibernate.search.genericjpa.annotations.IdInfo;
 import org.hibernate.search.genericjpa.annotations.InIndex;
 import org.hibernate.search.genericjpa.annotations.UpdateInfo;
-import org.hibernate.search.genericjpa.db.events.ColumnType;
+import org.hibernate.search.genericjpa.db.ColumnType;
 
 /**
  * Created by Martin on 24.06.2015.
@@ -45,7 +44,7 @@ public class Book {
 	private String isbn;
 
 	@Column(name = "title", columnDefinition = "VARCHAR(100) NOT NULL")
-	@Field(store = Store.YES, index = Index.YES, name = "nameStored")
+	@Field(store = Store.YES, index = Index.YES)
 	private String title;
 
 	@Column(name = "genre", columnDefinition = "VARCHAR(100) NOT NULL")
@@ -104,5 +103,16 @@ public class Book {
 
 	public void setAuthors(Set<Author> authors) {
 		this.authors = authors;
+	}
+
+	@Override
+	public String toString() {
+		return "Book{" +
+				"isbn='" + isbn + '\'' +
+				", title='" + title + '\'' +
+				", genre='" + genre + '\'' +
+				", summary='" + summary + '\'' +
+				", authors=" + authors +
+				'}';
 	}
 }

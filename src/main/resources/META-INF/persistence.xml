@@ -6,14 +6,14 @@
 	<persistence-unit name="EclipseLink_MySQL"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>org.hibernate.search.genericjpa.test.entities.Book</class>
-		<class>org.hibernate.search.genericjpa.test.entities.Author</class>
+		<class>org.hibernate.search.genericjpa.sample.entities.Book</class>
+		<class>org.hibernate.search.genericjpa.sample.entities.Author</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/testingdb" />
 			<property name="javax.persistence.jdbc.user" value="hibernate_user" />
 			<property name="javax.persistence.jdbc.password" value="hibernate_password" />
-			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+			<property name="eclipselink.ddl-generation" value="create-tables" />
 			<property name="eclipselink.logging.level" value="INFO" />
 			<property name="eclipselink.ddl-generation.output-mode"
 				value="both" />
